@@ -4,14 +4,37 @@ import FIELD_Name from "@salesforce/schema/Contact.Name";
 import FIELD_Description from "@salesforce/schema/Contact.Description";
 import FIELD_Email from "@salesforce/schema/Contact.Email";
 import FIELD_Phone from "@salesforce/schema/Contact.Phone";
+import { subscribe, unsubscribe, MessageContext } from "lightning/messageService";
+import SELECTED_STUDENT_CHANNEL from "@salesforce/messageChannel/SelectedStudentChannel__c";
 
 const fields = [FIELD_Email, FIELD_Phone, FIELD_Description, FIELD_Name];
 
 export default class StudentDetail extends LightningElement {
-	studentId = "003KK000004ufamYAA";
+	studentId;
+	subscription;
 
 	@wire(getRecord, { recordId: "$studentId", fields })
 	wiredStudent;
+
+	@wire(MessageContext) messageContext;
+
+	connectedCallback() {
+		if (this.subscription) {
+			return;
+		}
+		this.subscription = subscribe(this.messageContext, SELECTED_STUDENT_CHANNEL, (message) => {
+			this.handleStudentChange(message);
+		});
+	}
+
+	disconnectedCallback() {
+		unsubscribe(this.subscription);
+		this.subscription = null;
+	}
+
+	handleStudentChange(message) {
+		this.studentId = message.studentId;
+	}
 
 	get name() {
 		return this._getDisplayValue(this.wiredStudent.data, FIELD_Name);
