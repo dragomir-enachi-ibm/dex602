@@ -12,6 +12,9 @@ export default class StudentTile extends LightningElement {
 	}
 
 	studentClick() {
-		alert(this.student.Name);
+		// alert(this.student.Name);
+		debugger;
+		console.log("Name", this.student.Name);
+		console.log("Photo", this.student.PhotoUrl);
 	}
 }
