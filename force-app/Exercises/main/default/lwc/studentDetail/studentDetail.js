@@ -10,8 +10,6 @@ const fields = [FIELD_Email, FIELD_Phone, FIELD_Description, FIELD_Name];
 export default class StudentDetail extends LightningElement {
 	studentId = "003KK000004ufamYAA";
 
-	//TODO #4: use wire service to call getRecord, passing in our studentId and array of fields.
-	//		   Store the result in a property named wiredStudent.
 	@wire(getRecord, { recordId: "$studentId", fields })
 	wiredStudent;
 
