@@ -16,7 +16,7 @@ export default class Utils {
 	}
 
 	static showModal = (firingComponent, header, content) => {
-		const evt = new CustomEvent(" showmodal ", {
+		const evt = new CustomEvent("showmodal", {
 			detail: {
 				header,
 				content
