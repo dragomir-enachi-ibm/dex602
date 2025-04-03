@@ -56,6 +56,11 @@ export default class StudentBrowser extends NavigationMixin(LightningElement) {
 		const studentNames = ["Rad", "Stuart", "Andres", "Rahul", "Amit", "Simon"];
 	}
 
+	handleRowClick(event) {
+		const studentId = event.detail.pk;
+		this.updateSelectedStudent(studentId);
+	}
+
 	handleStudentSelected(event) {
 		const studentId = event.detail.studentId;
 		this.updateSelectedStudent(studentId);
