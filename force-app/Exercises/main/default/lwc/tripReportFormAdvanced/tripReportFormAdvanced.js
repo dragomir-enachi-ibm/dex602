@@ -141,6 +141,7 @@ export default class TripReportFormAdvanced extends LightningElement {
 					const recordInput = { fields: fieldsToSave, apiName: OBJECT_TRIP_REPORT.objectApiName };
 
 					Utils.showToast(this, "Success", "Trip Report Created", "success");
+					this.returnToBrowseMode();
 				})
 				.catch((error) => {
 					let errors = reduceErrors(error);
@@ -160,7 +161,21 @@ export default class TripReportFormAdvanced extends LightningElement {
 					let errors = reduceErrors(error);
 					let errorBody = errors.length ? errors[0] : "There was a problem updating your record.";
 					Utils.showToast(this, "Error updating record", errorBody, "error");
+					this.returnToBrowseMode();
 				});
 		}
+	}
+
+	returnToBrowseMode() {
+		const evt = new CustomEvent("tripreportmodechange", {
+			detail: {
+				mode: "browse"
+			}
+		});
+		this.dispatchEvent(evt);
+	}
+
+	onCancel() {
+		this.returnToBrowseMode();
 	}
 }
