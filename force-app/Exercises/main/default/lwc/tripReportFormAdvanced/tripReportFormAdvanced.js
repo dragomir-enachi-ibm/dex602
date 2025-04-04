@@ -35,6 +35,7 @@ export default class TripReportFormAdvanced extends LightningElement {
 	reviewType;
 	rating = 3;
 	review;
+	saveButtonDisabled = true;
 
 	//TODO #3: following the examples of and dateVisited and instructorId, store the value of the name, rating, review type, and review fields in JavaScript properties
 	@wire(getRecord, { recordId: "$recordId", fields: fieldsToLoad })
@@ -109,6 +110,16 @@ export default class TripReportFormAdvanced extends LightningElement {
 	onSave() {
 		this.saveTripReport();
 	}
+
+	validateFields() {
+		const fields = Array.from(this.template.querySelectorAll(".validateMe"));
+		return fields.every((currentField) => currentField.checkValidity());
+	}
+
+	onBlur() {
+		this.saveButtonDisabled = !this.validateFields();
+	}
+
 	saveTripReport() {
 		const fieldsToSave = {};
 		fieldsToSave[FIELD_DATE.fieldApiName] = this.dateVisited;
